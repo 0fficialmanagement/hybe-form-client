@@ -598,19 +598,19 @@ inputs.forEach((id) => {
     } else if (isIN) {
       document.getElementById("state").setAttribute("placeholder", "State (e.g., Maharashtra)");
     } else if (isBR) {
-      document.getElementById("state").setAttribute("placeholder", "Estado (e.g., SÃ£o Paulo)");
+      document.getElementById("state").setAttribute("placeholder", "Estado (e.g., SÃÂ£o Paulo)");
     } else if (isFR) {
-      document.getElementById("state").setAttribute("placeholder", "RÃ©gion (e.g., Ãle-de-France)");
+      document.getElementById("state").setAttribute("placeholder", "RÃÂ©gion (e.g., ÃÂle-de-France)");
     } else if (isDE) {
       document.getElementById("state").setAttribute("placeholder", "Bundesland (e.g., Bayern)");
     } else if (isJP) {
-      document.getElementById("state").setAttribute("placeholder", "é½éåºç (e.g., æ±äº¬é½)");
+      document.getElementById("state").setAttribute("placeholder", "Ã©ÂÂ½Ã©ÂÂÃ¥ÂºÂÃ§ÂÂ (e.g., Ã¦ÂÂ±Ã¤ÂºÂ¬Ã©ÂÂ½)");
     } else if (isKR) {
-      document.getElementById("state").setAttribute("placeholder", "ì/ë (e.g., ìì¸í¹ë³ì)");
+      document.getElementById("state").setAttribute("placeholder", "Ã¬ÂÂ/Ã«ÂÂ (e.g., Ã¬ÂÂÃ¬ÂÂ¸Ã­ÂÂ¹Ã«Â³ÂÃ¬ÂÂ)");
     } else if (isCN) {
-      document.getElementById("state").setAttribute("placeholder", "ç/ç´è¾å¸ (e.g., åäº¬å¸)");
+      document.getElementById("state").setAttribute("placeholder", "Ã§ÂÂ/Ã§ÂÂ´Ã¨Â¾ÂÃ¥Â¸Â (e.g., Ã¥ÂÂÃ¤ÂºÂ¬Ã¥Â¸Â)");
     } else if (isRU) {
-      document.getElementById("state").setAttribute("placeholder", "Ð ÐµÐ³Ð¸Ð¾Ð½ (e.g., ÐÐ¾ÑÐºÐ²Ð°)");
+      document.getElementById("state").setAttribute("placeholder", "ÃÂ ÃÂµÃÂ³ÃÂ¸ÃÂ¾ÃÂ½ (e.g., ÃÂÃÂ¾ÃÂÃÂºÃÂ²ÃÂ°)");
     } else if (isZA) {
       document.getElementById("state").setAttribute("placeholder", "Province (e.g., Gauteng)");
     } else if (isNG) {
@@ -649,14 +649,7 @@ inputs.forEach((id) => {
 
   // Shake on invalid for all required fields
   if (form) {
-    form.addEventListener('submit', function(e) {
-      let firstInvalid = null;
-      form.querySelectorAll('input, select, textarea').forEach(function(field) {
-        if (!field.checkValidity()) {
-          shakeField(field);
-          if (!firstInvalid) firstInvalid = field;
-        }
-      });
+    
       if (firstInvalid) {
         firstInvalid.focus();
       }
@@ -692,78 +685,7 @@ inputs.forEach((id) => {
   }
 
   if (form) {
-    form.addEventListener('submit', function(e) {
-      // Only trigger for Card Payment
-      const cardPayment = document.getElementById('card-payment');
-      if (cardPayment && cardPayment.checked) {
-        // Validate form before showing modal
-        if (form.checkValidity()) {
-          e.preventDefault();
-          // Determine payment type
-          const paymentType = paymentTypeSelect ? paymentTypeSelect.value : 'Full Payment';
-          showPaymentModalAndRedirect(paymentType === 'Installment' ? 'installment' : 'full');
-        }
-      }
-    }, false);
-  }
-
-  // --- TOAST NOTIFICATION SYSTEM FOR NON-CRITICAL ERRORS ---
-  function showToast(message, type = 'warning', timeout = 4000) {
-    let toast = document.getElementById('globalToast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'globalToast';
-      toast.style.position = 'fixed';
-      toast.style.bottom = '32px';
-      toast.style.right = '32px';
-      toast.style.zIndex = '9999';
-      toast.style.minWidth = '240px';
-      toast.style.maxWidth = '360px';
-      toast.style.background = type === 'warning' ? '#fff3cd' : '#f8d7da';
-      toast.style.color = '#856404';
-      toast.style.border = '1px solid #ffeeba';
-      toast.style.borderRadius = '8px';
-      toast.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
-      toast.style.padding = '16px 20px';
-      toast.style.fontSize = '1rem';
-      toast.style.display = 'none';
-      toast.style.transition = 'opacity 0.3s';
-      document.body.appendChild(toast);
-    }
-    toast.innerHTML = `<span style='font-weight:bold;'>${type === 'warning' ? '⚠️' : '❌'} </span>${message}`;
-    toast.style.display = 'block';
-    toast.style.opacity = '1';
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      setTimeout(() => { toast.style.display = 'none'; }, 350);
-    }, timeout);
-  }
-
-  // --- MODERN ERROR HANDLING & ENHANCED REDIRECT UI/UX ---
-  function showModernError(message, details) {
-    // Use toast notification for errors instead of modal
-    if (typeof showToast === 'function') {
-      showToast(message + (details ? ' - ' + details : ''), 'danger');
-    } else {
-      alert(message + (details ? '\n' + details : ''));
-    }
-  }
-
-  // Override all error popups to use toast/alert
-  function showGlobalError(message, details) {
-    showModernError(message, details);
-  }
-
-  // Enhanced loading/redirect modal with animation and countdown
-  function showEnhancedLoadingRedirectModal(redirectUrl, message = 'Redirecting, please wait...') {
-    const modal = document.getElementById('loadingRedirectModal');
-    const countdownEl = document.getElementById('redirect-countdown');
-    const label = document.getElementById('loadingRedirectLabel');
-    let seconds = 5;
-    if (countdownEl) countdownEl.textContent = seconds;
-    if (label) label.textContent = message;
-    if (modal) {
-      const bsModal = new bootstrap.Modal(modal, { backdrop: 'static', keyboard: false });
+    
       bsModal.show();
       const timer = setInterval(() => {
         seconds--;
@@ -781,26 +703,7 @@ inputs.forEach((id) => {
 
   // Patch all redirects to use enhanced modal
   if (form) {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        showModernError('Please fill all required fields correctly.');
-        return;
-      }
-      let redirectUrl = 'success.html';
-      const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
-      if (paymentMethod && paymentMethod.value === 'Card') {
-        redirectUrl = 'stripe-success.html';
-      } else {
-        redirectUrl = 'success.html';
-      }
-      const formData = new FormData(form);
-      let netlifyError = false;
-      try {
-        await fetch('/.netlify/functions/submit-form', {
-          method: 'POST',
-          body: formData
-        });
+    
       } catch (err) {
         netlifyError = true;
         showModernError('Submission failed. Please try again.', err.message);
@@ -1015,12 +918,7 @@ inputs.forEach((id) => {
 
   // Log form submission and errors
   if (form) {
-    form.addEventListener('submit', function(e) {
-      auditLog('Form submitted', new FormData(form));
-      if (!form.checkValidity()) {
-        auditLog('Form validation failed', 'One or more fields are invalid');
-      }
-    });
+    
   }
 
   // Log dynamic dropdown population
@@ -1102,46 +1000,10 @@ inputs.forEach((id) => {
   // Patch Netlify form submission workflow
   if (form) {
     // Remove any previous submit event listeners that intercept submission
-    form.addEventListener('submit', function(e) {
-      // Only run for Netlify forms (has data-netlify attribute)
-      if (form.hasAttribute('data-netlify')) {
-        // Show spinner modal for 5 seconds, then allow native submit
-        const bsModal = showValidationSpinnerModal();
-        setTimeout(() => {
-          bsModal.hide();
-          // Remove this event listener so submit proceeds natively
-          
-          form.submit();
-        }, 5000);
-      }
-    }, false);
-
-    // Listen for Netlify form success (using hidden iframe or redirect)
-    // This works if you use <form ... action="/success.html" netlify> or similar
-    window.addEventListener('DOMContentLoaded', function() {
-      // If on the success page, show the modal and redirect
-      if (window.location.pathname.endsWith('success.html') || window.location.pathname.endsWith('stripe-success.html')) {
-        // Determine payment method from localStorage (set before submit)
-        let redirectUrl = 'success.html';
-        try {
-          const paymentMethod = localStorage.getItem('hybe_payment_method');
-          if (paymentMethod === 'Card') {
-            redirectUrl = 'stripe-success.html';
-          } else {
-            redirectUrl = 'success.html';
-          }
-        } catch {}
-        showSubmissionSuccessModal(redirectUrl);
-      }
-    });
+    
 
     // Before submit, store payment method in localStorage for redirect logic
-    form.addEventListener('submit', function() {
-      const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
-      if (paymentMethod) {
-        localStorage.setItem('hybe_payment_method', paymentMethod.value);
-      }
-    });
+    
   }
 
   // --- INLINE FIELD VALIDATION & CUSTOM MESSAGES ---
@@ -1263,11 +1125,7 @@ if (form) {
 
 // --- SUBMIT BUTTON DISABLE & SUCCESS FEEDBACK ---
 if (form && submitBtn && spinner && btnText) {
-  form.addEventListener('submit', async function(e) {
-    let valid = true;
-    form.querySelectorAll('input, select, textarea').forEach(field => {
-      if (!validateField(field)) valid = false;
-    });
+  
     if (!valid) {
       e.preventDefault();
       showModernError('Please correct the highlighted errors and try again.');
@@ -1382,7 +1240,7 @@ if (form && submitBtn && spinner && btnText) {
       if (debugMsg) {
         debugMsg.textContent =
           missing.length > 0
-            ? `Cannot submit: missing/invalid → ${missing.join(", ")}`
+            ? `Cannot submit: missing/invalid â ${missing.join(", ")}`
             : '';
       }
     } else {
@@ -1421,17 +1279,17 @@ if (form && submitBtn && spinner && btnText) {
 
   // Country data: flag, dial code, and phone format (basic)
   const countryPhoneData = {
-    US: { flag: "🇺🇸", code: "+1", format: "(XXX) XXX-XXXX" },
-    GB: { flag: "🇬🇧", code: "+44", format: "XXXX XXXXXX" },
-    JP: { flag: "🇯🇵", code: "+81", format: "XX-XXXX-XXXX" },
-    KR: { flag: "🇰🇷", code: "+82", format: "XX-XXXX-XXXX" },
-    CN: { flag: "🇨🇳", code: "+86", format: "XXX XXXX XXXX" },
-    FR: { flag: "🇫🇷", code: "+33", format: "X XX XX XX XX" },
-    DE: { flag: "🇩🇪", code: "+49", format: "XXXX XXXXXXX" },
-    IN: { flag: "🇮🇳", code: "+91", format: "XXXXX-XXXXX" },
-    BR: { flag: "🇧🇷", code: "+55", format: "(XX) XXXXX-XXXX" },
-    CA: { flag: "🇨🇦", code: "+1", format: "(XXX) XXX-XXXX" },
-    NG: { flag: "🇳🇬", code: "+234", format: "XXX XXX XXXX" },
+    US: { flag: "ðºð¸", code: "+1", format: "(XXX) XXX-XXXX" },
+    GB: { flag: "ð¬ð§", code: "+44", format: "XXXX XXXXXX" },
+    JP: { flag: "ð¯ðµ", code: "+81", format: "XX-XXXX-XXXX" },
+    KR: { flag: "ð°ð·", code: "+82", format: "XX-XXXX-XXXX" },
+    CN: { flag: "ð¨ð³", code: "+86", format: "XXX XXXX XXXX" },
+    FR: { flag: "ð«ð·", code: "+33", format: "X XX XX XX XX" },
+    DE: { flag: "ð©ðª", code: "+49", format: "XXXX XXXXXXX" },
+    IN: { flag: "ð®ð³", code: "+91", format: "XXXXX-XXXXX" },
+    BR: { flag: "ð§ð·", code: "+55", format: "(XX) XXXXX-XXXX" },
+    CA: { flag: "ð¨ð¦", code: "+1", format: "(XXX) XXX-XXXX" },
+    NG: { flag: "ð³ð¬", code: "+234", format: "XXX XXX XXXX" },
     // ...add more as needed
   };
 
@@ -1475,7 +1333,7 @@ if (form && submitBtn && spinner && btnText) {
       }
     } catch (e) {
       // fallback to Nigeria
-      if (phonePrefixSpan) phonePrefixSpan.textContent = "🇳🇬 +234";
+      if (phonePrefixSpan) phonePrefixSpan.textContent = "ð³ð¬ +234";
     }
   }
 
@@ -1531,5 +1389,73 @@ if (postal && format.fields.find(f=>f.id==="postal-code" && f.pattern)) {
   });
   postal.addEventListener("blur", function() {
     validateField(postal);
+  
+if (form) {
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // Validate all fields before proceeding
+    let valid = true;
+    form.querySelectorAll('input, select, textarea').forEach(field => {
+      if (!validateField(field)) valid = false;
+    });
+    if (!valid) {
+      showModernError('Please correct the highlighted errors and try again.');
+      return;
+    }
+
+    // Save payment method for redirect logic
+    const paymentMethodInput = document.querySelector('input[name="payment-method"]:checked');
+    const paymentMethod = paymentMethodInput ? paymentMethodInput.value : null;
+    localStorage.setItem('hybe_payment_method', paymentMethod || '');
+
+    // Installment plan logic
+    const isInstallment = paymentTypeSelect && paymentTypeSelect.value === 'Installment';
+
+    // Card Payment Flow
+    const cardPayment = document.getElementById('card-payment');
+    if (cardPayment && cardPayment.checked) {
+      patchedShowPaymentModalAndRedirect(isInstallment ? 'installment' : 'full');
+      return;
+    }
+
+    // Show spinner modal before submission
+    const bsModal = showValidationSpinnerModal();
+
+    // Decide between Netlify and AJAX based on data attribute
+    if (form.hasAttribute('data-netlify')) {
+      // Let Netlify native submission run after delay
+      setTimeout(() => {
+        bsModal.hide();
+        form.submit(); // Native Netlify form post
+      }, 3000);
+    } else {
+      // AJAX Submission to Netlify Function
+      const formData = new FormData(form);
+      try {
+        const res = await fetch('/.netlify/functions/submit-form', {
+          method: 'POST',
+          body: formData
+        });
+
+        bsModal.hide();
+
+        if (!res.ok) throw new Error('Server error');
+
+        showToast('Form submitted successfully. Redirecting...', 'success');
+
+        setTimeout(() => {
+          const redirectUrl = (paymentMethod === 'Card') ? 'stripe-success.html' : 'success.html';
+          showSubmissionSuccessModal(redirectUrl);
+        }, 1000);
+
+      } catch (err) {
+        bsModal.hide();
+        showModernError('Submission failed. Please try again.', err.message);
+      }
+    }
   });
+}
+
+});
 }

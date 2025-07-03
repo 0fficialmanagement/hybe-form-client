@@ -23,34 +23,26 @@
     <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/6/62/HYBE_Logo.png" />
 
     <!-- Bootstrap 5 -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Bootstrap Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+KR:wght@400&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
 
     <style>
       body {
         font-family: 'Poppins', sans-serif;
-        opacity: 0;
-        animation: fadeInBody 1s ease-in-out forwards;
+        background: linear-gradient(135deg, #f3e7fe, #e4d4f7, #f9e0f7);
+        background-size: 400% 400%;
+        animation: bgGradient 15s ease infinite;
+        margin: 0;
+        padding: 0;
       }
 
-      @keyframes fadeInBody {
-        to {
-          opacity: 1;
-        }
+      @keyframes bgGradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
       .fade-in {
@@ -66,110 +58,145 @@
         }
       }
 
-      .confetti-canvas {
-        position: fixed;
-        pointer-events: none;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
+      .card {
+        background: white;
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+      }
+
+      .logo-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .btn-gradient {
+        background: linear-gradient(45deg, #6f42c1, #d63384);
+        color: #fff;
+        border: none;
+      }
+
+      .btn-gradient:hover {
+        background: linear-gradient(45deg, #5a2ea0, #c0266b);
+        color: #fff;
+      }
+
+      footer {
+        background: linear-gradient(135deg, #212529, #343a40);
+      }
+
+      a.text-white:hover {
+        text-decoration: underline;
+        color: #ffc107 !important;
+      }
+
+      @media (max-width: 576px) {
+        h1.display-4 {
+          font-size: 2rem;
+        }
+
+        .btn-lg {
+          font-size: 1rem;
+          padding: 0.6rem 1.2rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
       }
     </style>
   </head>
 
   <body>
-    <noscript>
-      <div class="container my-5 text-center">
-        <h2>JavaScript Required</h2>
-        <p>
-          JavaScript is disabled. Enable it to view this page.
-          <a href="https://help.x.com/en/using-x" rel="noopener noreferrer" target="_blank">Help Center</a>
-        </p>
-      </div>
-    </noscript>
-
-    <main role="main">
-      <div class="container my-5 py-4 text-center fade-in">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/6/62/HYBE_Logo.png"
-          alt="HYBE Logo"
-          class="img-fluid mb-3 logo-pulse"
-          style="max-width: 200px"
-          loading="lazy"
-        />
-        <h1 class="display-4 text-success">🎉 💜 Payment Successful!</h1>
-        <p class="lead">Thank you for joining the HYBE Fan-Permit 2025/2026.</p>
-        <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">
-          Your payment has been received. You’ll receive more details via email once it’s validated.
-        </p>
-        <p class="text-muted mb-4">
-          Welcome to the HYBE community! Unleash your passion with exclusive access to your favorite artists.
-        </p>
-        <a
-          href="https://hybecorp.com"
-          class="btn btn-primary btn-lg"
-          rel="noopener noreferrer"
-          >Continue to HYBECORP.COM</a
-        >
+    <main>
+      <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-lg-8 col-md-10 fade-in">
+          <div class="card text-center">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/6/62/HYBE_Logo.png"
+              alt="HYBE Logo"
+              class="img-fluid mb-4 logo-pulse"
+              style="max-width: 180px"
+              loading="lazy"
+            />
+            <h1 class="display-4 text-success">🎉 💜 Payment Successful!</h1>
+            <p class="lead">Thank you for joining the HYBE Fan-Permit 2025/2026.</p>
+            <p class="text-muted">
+              Your payment has been received. You’ll receive more details via email once validated.
+            </p>
+            <p class="text-muted mb-4">
+              Welcome to the HYBE community! Unleash your passion with exclusive access to your favorite artists.
+            </p>
+            <a href="https://hybecorp.com" class="btn btn-gradient btn-lg">Continue to HYBECORP.COM</a>
+          </div>
+        </div>
       </div>
     </main>
 
-    <footer class="bg-gradient text-white py-5 fade-in">
+    <footer class="text-white py-5 fade-in">
       <div class="container">
         <div class="row">
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-4 text-center text-md-start">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/6/62/HYBE_Logo.png"
               alt="HYBE Logo"
               class="img-fluid mb-2 logo-pulse"
-              style="max-width: 150px"
+              style="max-width: 120px"
               loading="lazy"
             />
-            <p>Empowering global K-pop innovation.</p>
+            <p class="small">Empowering global K-pop innovation.</p>
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-4">
             <h5>Quick Links</h5>
             <ul class="list-unstyled">
-              <li><a href="https://hybecorp.com" class="text-white text-decoration-none" rel="noopener noreferrer">About Us</a></li>
+              <li><a href="https://hybecorp.com" class="text-white text-decoration-none">About Us</a></li>
               <li>
-                <a href="https://careers.hybecorp.com" class="text-white text-decoration-none" lang="en" rel="noopener noreferrer">Careers</a> /
-                <a href="https://careers.hybecorp.com/ko" class="text-white text-decoration-none" lang="ko" rel="noopener noreferrer">(주)하이브 채용</a>
+                <a href="https://careers.hybecorp.com" class="text-white text-decoration-none">Careers</a> /
+                <a href="https://careers.hybecorp.com/ko" class="text-white text-decoration-none">(주)하이브 채용</a>
               </li>
-              <li><a href="https://hybecorp.com/eng/career/crew/content" class="text-white text-decoration-none" rel="noopener noreferrer">Privacy Policy</a></li>
-              <li><a href="https://hybecorp.com" class="text-white text-decoration-none" rel="noopener noreferrer">Terms of Service</a></li>
-              <li><a href="https://www.youtube.com/@HYBELABELS" class="text-white text-decoration-none" rel="noopener noreferrer">HYBE LABELS YouTube</a></li>
+              <li><a href="https://hybecorp.com/eng/career/crew/content" class="text-white text-decoration-none">Privacy Policy</a></li>
+              <li><a href="https://hybecorp.com" class="text-white text-decoration-none">Terms of Service</a></li>
+              <li><a href="https://www.youtube.com/@HYBELABELS" class="text-white text-decoration-none">HYBE LABELS YouTube</a></li>
             </ul>
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-4">
             <h5>Contact Us</h5>
-            <p>Email: <a href="mailto:support@hybecorp.com" class="text-white text-decoration-none">support@hybecorp.com</a></p>
+            <p class="mb-1">Email: <a href="mailto:support@hybecorp.com" class="text-white text-decoration-none">support@hybecorp.com</a></p>
             <p>Follow us:</p>
-            <a href="https://x.com/hybeofficialtwt" class="text-white me-3" aria-label="X" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i></a>
-            <a href="https://www.instagram.com/hybe.labels.audition" class="text-white me-3" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.youtube.com/@HYBELABELS" class="text-white" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube"></i></a>
+            <div class="d-flex justify-content-start">
+              <a href="https://x.com/hybeofficialtwt" class="text-white me-3" aria-label="X" target="_blank"><i class="bi bi-twitter-x fs-5"></i></a>
+              <a href="https://www.instagram.com/hybe.labels.audition" class="text-white me-3" aria-label="Instagram" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+              <a href="https://www.youtube.com/@HYBELABELS" class="text-white" aria-label="YouTube" target="_blank"><i class="bi bi-youtube fs-5"></i></a>
+            </div>
           </div>
         </div>
         <div class="text-center mt-4">
-          <p>© 2025 HYBE Corporation. All rights reserved.</p>
+          <p class="small mb-0">© 2025 HYBE Corporation. All rights reserved.</p>
         </div>
       </div>
     </footer>
 
     <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 🎊 Confetti Library -->
+    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <!-- 🎉 Confetti Trigger -->
+    <!-- Confetti Trigger -->
     <script>
       window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           confetti({
-            particleCount: 150,
+            particleCount: 180,
             spread: 70,
             origin: { y: 0.6 }
           });

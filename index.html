@@ -407,32 +407,30 @@
 
                   <!-- Phone Number -->
                   <div class="mb-3 position-relative" data-aos="fade-up" data-aos-delay="175">
-                    <label for="phone" class="form-label">
-                      Phone Number <span class="text-danger">*</span>
-                    </label>
-                    <div class="input-group">
-                      <span id="phone-prefix" class="input-group-text" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"></span>
-                      <input
-                        type="tel"
-                        class="form-control"
-                        id="phone"
-                        name="phone"
-                        placeholder="Enter your phone number"
-                        required
-                        aria-required="true"
-                        aria-describedby="phone-error"
-                        aria-invalid="false"
-                        autocomplete="tel"
-                        maxlength="20"
-                      />
-                    </div>
-                    <div id="phone-error" class="invalid-feedback" aria-live="polite"></div>
-                    <i
-                      class="bi bi-info-circle tooltip-icon"
-                      data-bs-toggle="tooltip"
-                      data-bs-title="Enter your phone number with country code"
-                    ></i>
-                  </div>
+  <label for="phone" class="form-label">
+    Phone Number <span class="text-danger">*</span>
+  </label>
+  <div class="input-group">
+    <span id="phone-prefix" class="input-group-text" style="border-top-right-radius: 0; border-bottom-right-radius: 0;"></span>
+    <input
+      type="tel"
+      class="form-control"
+      id="phone"
+      name="phone"
+      placeholder="Enter your phone number"
+      required
+      aria-required="true"
+      aria-describedby="phone-error"
+      aria-invalid="false"
+      autocomplete="tel"
+      inputmode="tel"
+      maxlength="20"
+    />
+  </div>
+  <div id="phone-error" class="invalid-feedback" aria-live="polite"></div>
+  <i class="bi bi-info-circle tooltip-icon" tabindex="0" role="button"
+    data-bs-toggle="tooltip" data-bs-title="Enter your phone number with country code. Auto-formats based on location."></i>
+</div>
 
                   <!-- Address -->
                   <div

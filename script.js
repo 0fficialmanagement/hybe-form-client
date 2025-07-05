@@ -294,50 +294,102 @@ document.addEventListener("DOMContentLoaded", () => {
   enhanceAccessibility();
 
   // ========== ENHANCED PHONE VALIDATION ==========
-  const countryPhoneData = {
-    US: { flag: "🇺🇸", code: "+1", format: "(XXX) XXX-XXXX" },
-    GB: { flag: "🇬🇧", code: "+44", format: "XXXX XXXXXX" },
-    JP: { flag: "🇯🇵", code: "+81", format: "XX-XXXX-XXXX" },
-    KR: { flag: "🇰🇷", code: "+82", format: "XX-XXXX-XXXX" },
-    CN: { flag: "🇨🇳", code: "+86", format: "XXX XXXX XXXX" },
-    FR: { flag: "🇫🇷", code: "+33", format: "X XX XX XX XX" },
-    DE: { flag: "🇩🇪", code: "+49", format: "XXXX XXXXXXX" },
-    IN: { flag: "🇮🇳", code: "+91", format: "XXXXX-XXXXX" },
-    BR: { flag: "🇧🇷", code: "+55", format: "(XX) XXXXX-XXXX" },
-    CA: { flag: "🇨🇦", code: "+1", format: "(XXX) XXX-XXXX" },
-    NG: { flag: "🇳🇬", code: "+234", format: "XXX XXX XXXX" }
+  <script type="module">
+  const phoneInput = document.getElementById("phone");
+  const phonePrefix = document.getElementById("phone-prefix");
+  const phoneError = document.getElementById("phone-error");
+
+  // Create hidden input for full international number
+  let fullNumberInput = document.getElementById("full-number");
+  if (!fullNumberInput) {
+    fullNumberInput = document.createElement("input");
+    fullNumberInput.type = "hidden";
+    fullNumberInput.name = "full_number";
+    fullNumberInput.id = "full-number";
+    phoneInput.parentNode.appendChild(fullNumberInput);
+  }
+
+  const geoCache = {
+    data: null,
+    timestamp: null,
+    ttl: 6 * 60 * 60 * 1000, // 6 hours
+
+    get() {
+      if (this.data && Date.now() - this.timestamp < this.ttl) {
+        return this;
+      }
+      return null;
+    },
+    set(data) {
+      this.data = data;
+      this.timestamp = Date.now();
+    },
+    isValid() {
+      return this.data && this.data.country_code;
+    },
   };
 
-  async function initializePhoneField() {
-    try {
-      const { AsYouType } = await import('https://cdn.jsdelivr.net/npm/libphonenumber-js@1.10.11/+esm');
+  async function fetchUserCountry() {
+    const endpoints = [
+      "https://ipwho.is/?fields=country_code",
+      "https://ipapi.co/json/",
+      "https://ipinfo.io/json?token=demo" // Replace demo with your token
+    ];
 
-      let countryCode = 'NG';
-      const cachedGeo = geoCache.get();
-      if (cachedGeo && geoCache.isValid(cachedGeo)) {
-        countryCode = cachedGeo.data.country_code;
-      } else {
-        const res = await safeFetch('https://ipwho.is/');
+    for (const url of endpoints) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) continue;
         const data = await res.json();
-        countryCode = data.country_code || 'NG';
-        geoCache.set(data);
+        if (data.country_code || data.country) {
+          return { country_code: data.country_code || data.country };
+        }
+      } catch (_) {
+        continue;
       }
-
-      const phoneData = countryPhoneData[countryCode] || countryPhoneData.NG;
-      phonePrefixSpan.textContent = `${phoneData.flag} ${phoneData.code}`;
-
-      phoneInput.addEventListener('input', (e) => {
-        const formatter = new AsYouType(countryCode);
-        phoneInput.value = formatter.input(e.target.value);
-        validateField(phoneInput);
-      });
-    } catch (error) {
-      console.error('Phone validation load failed:', error);
-      phoneInput.addEventListener('input', () => validateField(phoneInput));
     }
+
+    return { country_code: "US" }; // Final fallback
+  }
+
+  async function initializePhoneField() {
+    const { AsYouType, parsePhoneNumberFromString } = await import("https://cdn.jsdelivr.net/npm/libphonenumber-js@1.10.11/+esm");
+
+    let countryCode = "US";
+    const cached = geoCache.get();
+    if (cached && cached.isValid()) {
+      countryCode = cached.data.country_code;
+    } else {
+      const geoData = await fetchUserCountry();
+      countryCode = geoData.country_code || "US";
+      geoCache.set({ country_code: countryCode });
+    }
+
+    const prefixSymbol = new AsYouType(countryCode).getCountryCallingCode();
+    phonePrefix.textContent = `+${prefixSymbol}`;
+    phonePrefix.setAttribute("aria-label", `Country calling code +${prefixSymbol}`);
+    fullNumberInput.value = "";
+
+    phoneInput.addEventListener("input", () => {
+      const inputVal = phoneInput.value;
+      const formatter = new AsYouType(countryCode);
+      const formatted = formatter.input(inputVal);
+      phoneInput.value = formatted;
+
+      const phoneNumber = parsePhoneNumberFromString(formatted, countryCode);
+      const isValid = phoneNumber?.isValid() || false;
+
+      phoneInput.classList.toggle("is-valid", isValid);
+      phoneInput.classList.toggle("is-invalid", !isValid);
+      phoneInput.setAttribute("aria-invalid", String(!isValid));
+      phoneError.textContent = isValid ? "" : "Invalid phone number";
+
+      fullNumberInput.value = isValid ? phoneNumber.number : "";
+    });
   }
 
   initializePhoneField();
+</script>
 
   // ========== DYNAMIC COUNTRY AND ADDRESS FIELDS ==========
   async function populateCountryDropdown() {
